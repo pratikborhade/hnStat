@@ -8,6 +8,13 @@
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
+    <File Name="TopAlgorithm.cpp"/>
+    <File Name="TopAlgorithm.hpp"/>
+    <File Name="AlgorithmFactory.cpp"/>
+    <File Name="AlgorithmFactory.hpp"/>
+    <File Name="AlgorithmInterface.hpp"/>
+    <File Name="DistinctAlgorithm.cpp"/>
+    <File Name="DistinctAlgorithm.hpp"/>
     <File Name="FileStream.cpp"/>
     <File Name="FileStream.hpp"/>
     <File Name="Common.h"/>

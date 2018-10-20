@@ -1,7 +1,8 @@
 #include <iostream>
-
+#include <fstream>
 #include "ArgumentParser.hpp"
 #include "FileStream.hpp"
+#include "AlgorithmFactory.hpp"
 
 int main(int argc, char **argv)
 {
@@ -9,16 +10,25 @@ int main(int argc, char **argv)
 	
 	if( parser.Initialize() )
 	{
+		//Check if file exists
+		//this part should be replaced with filesystem
+		std::ifstream ifs( parser.getFileName(), std::ios::in );
+		if( !ifs.is_open() )
+		{
+			std::cout << "File Does Not Exist" << "\n";
+			return 0;
+		}
+		ifs.close();
+		
+		// Algorithm part
+		auto algo = hnStat::AlgorithmFactory::GetAlgorithm( parser );
+		if( algo == nullptr )
+		{
+			std::cout << "Alorithm Not Found \n";
+			return 0;
+		}
 		hnStat::FileStream fs( parser.getFileName(), parser.getFromTimestamp(), parser.getToTimestamp() );
-		auto ite = fs.begin();
-		if( ite == fs.end() )
-		{
-			std::cout << "Error processing the file : " << parser.getFileName();
-		}
-		for( ; ite != fs.end(); ++ite )
-		{
-			std::cout << ite->first << "  " << ite->second << "\n"; 
-		}
+		algo->Apply(fs);
 	}
 	else
 	{

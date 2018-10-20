@@ -41,7 +41,7 @@ FileStream::iterator::iterator( const FileStream& fileStream )
 
 
 FileStream::iterator::iterator( std::shared_ptr< std::ifstream >& ifStream, const FileStream& fileStream  ):
-	isEnd(false), fileStream(fileStream), fStream(ifStream)
+	isEnd(false), fStream(ifStream), fileStream(fileStream)
 {
 	if( fStream == nullptr || fStream->eof() )
 	{
@@ -56,12 +56,14 @@ FileStream::iterator::iterator( std::shared_ptr< std::ifstream >& ifStream, cons
 
 void FileStream::iterator::goToNext()
 {
-	if( fStream->eof() )
+	data.first = 0;
+	if( fStream->eof() || fStream->bad() )
 	{
 		setEnd();
 		return;
 	}
-	while( (*fStream) >> data.first >> data.second && !satisfiesCondition() )
+	
+	while(  (*fStream) >> data.first >> data.second && !satisfiesCondition() )
 	{
 	}
 	if( !satisfiesCondition() )
@@ -75,6 +77,8 @@ inline bool FileStream::iterator::satisfiesCondition()
 	if( fileStream.fromTimestamp > 0 && data.first < fileStream.fromTimestamp )
 		return false;
 	if( fileStream.toTimestamp > 0 && data.first > fileStream.toTimestamp )
+		return false;
+	if( data.first == 0 )
 		return false;
 	return true;
 }

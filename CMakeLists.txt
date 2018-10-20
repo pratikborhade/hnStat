@@ -55,9 +55,12 @@ set(CMAKE_LDFLAGS "${CMAKE_LDFLAGS} -L. ")
 
 # Define the CXX sources
 set ( CXX_SRCS
-    ${CMAKE_CURRENT_LIST_DIR}/FileStream.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/TopAlgorithm.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/AlgorithmFactory.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/DistinctAlgorithm.cpp
     ${CMAKE_CURRENT_LIST_DIR}/main.cpp
     ${CMAKE_CURRENT_LIST_DIR}/ArgumentParser.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/FileStream.cpp
 )
 
 set_source_files_properties(
