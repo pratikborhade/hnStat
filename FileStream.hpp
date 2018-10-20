@@ -33,7 +33,7 @@ public:
 		private:
 		void goToNext();
 		
-		void iterateToLowerBound();
+		inline bool satisfiesCondition();
 		
 		void setEnd();
 		

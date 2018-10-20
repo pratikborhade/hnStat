@@ -56,27 +56,27 @@ FileStream::iterator::iterator( std::shared_ptr< std::ifstream >& ifStream, cons
 
 void FileStream::iterator::goToNext()
 {
-	(*fStream) >> data.first >> data.second;
-	if( data.first > fileStream.toTimestamp )
+	if( fStream->eof() )
 	{
 		setEnd();
 		return;
 	}
-	if( fileStream.fromTimestamp > 0 && data.first< fileStream.fromTimestamp )
+	while( (*fStream) >> data.first >> data.second && !satisfiesCondition() )
 	{
-		iterateToLowerBound();
+	}
+	if( !satisfiesCondition() )
+	{
+		setEnd();
 	}
 }
 
-void FileStream::iterator::iterateToLowerBound()
+inline bool FileStream::iterator::satisfiesCondition()
 {
-	while( !fStream->eof() && data.first < fileStream.fromTimestamp )
-	{
-		(*fStream) >> data.first >> data.second;
-	}
-	if(data.first < fileStream.fromTimestamp)
-		return;
-	setEnd();
+	if( fileStream.fromTimestamp > 0 && data.first < fileStream.fromTimestamp )
+		return false;
+	if( fileStream.toTimestamp > 0 && data.first > fileStream.toTimestamp )
+		return false;
+	return true;
 }
 
 void FileStream::iterator::setEnd()
@@ -112,6 +112,6 @@ bool FileStream::iterator::operator == (const iterator& other) const
 
 bool FileStream::iterator::operator != (const iterator& other) const
 {
-	return !operator==(other);
+	return !(operator==(other));
 }
 
