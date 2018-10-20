@@ -34,7 +34,11 @@ void TopAlgorithm::Apply( FileStream &fileStream )
 	
 	std::partial_sort_copy( map.begin(), map.end(), result.begin(), result.end(), comparator);
 	
-	std::for_each( result.begin(), result.end(), []( const Container::value_type &elem ){ std::cout << elem.first << " " << elem.second << "\n";} );
+	for(auto res : result)
+	{
+		if( res.second > 0)
+			std::cout << res.first << " " << res.second << "\n";
+	}
 } 
 
 TopAlgorithm::~TopAlgorithm()
