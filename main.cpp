@@ -15,7 +15,7 @@ int main(int argc, char **argv)
 		std::ifstream ifs( parser.getFileName(), std::ios::in );
 		if( !ifs.is_open() )
 		{
-			std::cout << "File Does Not Exist" << "\n";
+			std::cout << "File \"" << parser.getFileName() << "\" Does Not Exist" << "\n";
 			return 0;
 		}
 		ifs.close();
